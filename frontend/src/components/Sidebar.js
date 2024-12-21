@@ -26,10 +26,11 @@ export default function Sidebar() {
                 isResized.current = true;
             }}
             style={{
-                width: width
+                width: width,
             }}
-            className='p-3 d-flex align-items-center justify-content-center border-end border-secondary'>
+            className='d-flex align-items-center justify-content-between'>
             test
+            <div style={{ width: 2, height: '100vh', cursor: 'col-resize', background: '#ccc', }}></div>
         </div>
     );
 }
