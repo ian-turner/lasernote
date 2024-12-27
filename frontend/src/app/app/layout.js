@@ -5,7 +5,7 @@ export default function AppLayout({ children }) {
     return (
         <div style={{ width: '100vw', height: '100vh' }} className='d-flex flex-row'>
             <Sidebar />
-            <div className='w-100'>
+            <div className='w-100 bg-light'>
                 {children}
             </div>
         </div>

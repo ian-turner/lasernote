@@ -12,16 +12,18 @@ export default function Note() {
     const [markdown, setMarkdown] = useState('');
 
     return (
-        <div className='d-flex flex-column'>
+        <div className='d-flex flex-column p-5'>
             <form className='d-flex w-full'>
                 <input
                     value={title}
                     onChange={e => setTitle(e.target.value)}
                     style={{ outline: 'none' }}
-                    className='h1 m-0 p-3 w-100 bg-transparent outline-none border-0 text-white'
+                    className='h1 m-0 mb-3 w-100 bg-transparent outline-none border-0 text-dark'
                 />
             </form>
-            <Editor markdown={markdown} setMarkdown={setMarkdown}/>
+            <div className='border border-1 rounded overflow-hidden'>
+                <Editor markdown={markdown} setMarkdown={setMarkdown}/>
+            </div>
         </div>
     );
 }
