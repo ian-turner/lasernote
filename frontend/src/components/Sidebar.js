@@ -29,6 +29,7 @@ export default function Sidebar() {
         <div
         style={{
             width: width,
+            backgroundColor: '#111115',
         }}
         className='d-flex align-items-center justify-content-between'>
             <div className='d-flex flex-column justify-content-start w-100 h-100'>
@@ -66,7 +67,7 @@ export default function Sidebar() {
                 onMouseDown={() => {
                     isResized.current = true;
                 }}
-                style={{ width: 1, height: '100vh', cursor: 'col-resize', background: '#555', }}>
+                style={{ width: 5, height: '100vh', cursor: 'col-resize', }}>
             </div>
         </div>
     );
