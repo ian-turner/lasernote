@@ -6,11 +6,11 @@ import {
 } from '@mdxeditor/editor';
 
 
-export default function Editor({ markdown, editorRef }) {
+export default function Editor({ markdown, setMarkdown, editorRef }) {
     return (
         <div className='bg-light w-100'>
             <MDXEditor
-                onChange={e => console.log(e)}
+                onChange={e => setMarkdown(e)}
                 ref={editorRef}
                 markdown={markdown}
                 plugins={[
