@@ -1,14 +1,30 @@
 'use client';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 
 export default function LoginPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const router = useRouter();
 
-    function handleSubmit(event) {
+    async function handleSubmit(event) {
         event.preventDefault();
-        console.log({email, password});
+        const res = await fetch('http://localhost:5000/login', {
+            method: 'POST',
+            mode: 'cors',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email, password }),
+        });
+        if (res.ok) {
+            router.push('/app');
+        }
+        else {
+            alert('Could not log in');
+        }
     }
 
     return (

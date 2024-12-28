@@ -12,6 +12,9 @@ export default function RegisterPage() {
         event.preventDefault();
         const res = await fetch('http://localhost:5000/register', {
             method: 'POST',
+            method: 'POST',
+            mode: 'cors',
+            credentials: 'include',
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -21,7 +24,7 @@ export default function RegisterPage() {
             router.push('/app');
         }
         else {
-            // handle error here
+            alert('Could not register');
         }
     }
 
