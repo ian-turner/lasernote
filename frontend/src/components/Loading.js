@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 
 
-export default function Loading() {
+export default function Loading(props) {
     const [num, setNum] = useState(0);
 
     useEffect(() => {
@@ -14,6 +14,6 @@ export default function Loading() {
     }, [num]);
 
     return (
-        <div className='text-dark h4'>Loading{'.'.repeat(num+1)}</div>
+        <div {...props}>Loading{'.'.repeat(num+1)}</div>
     );
 }

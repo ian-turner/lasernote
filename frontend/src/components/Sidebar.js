@@ -33,7 +33,7 @@ export default function Sidebar() {
         }}
         className='d-flex align-items-center justify-content-between'>
             <div className='d-flex flex-column justify-content-start w-100 h-100'>
-                <div className='p-3 d-flex flex-row justify-content-center align-items-center gap-2'>
+                <div className='p-2 d-flex flex-row justify-content-center align-items-center gap-2'>
                     <Image
                         className='rounded'
                         style={tab === 0 ? {

@@ -1,6 +1,6 @@
 import hashlib
-import uuid
 import secrets
+from uuid import uuid4
 from pymongo import MongoClient
 from bson.json_util import dumps, loads
 from flask import Flask, request, make_response, jsonify
@@ -95,7 +95,7 @@ def login():
 @login_required
 def get_notes(current_user):
     notes = db.notes.find({'owner': current_user['_id']}, {'_id': 0, 'owner': 0})
-    return make_response({'notes': notes})
+    return make_response({'notes': list(notes)})
 
 
 @app.route('/notes/<note_id>', methods=['GET', 'POST'])
@@ -109,5 +109,15 @@ def get_note_by_id(current_user, note_id):
         return make_response({'message': 'Invalid note ID'}, 404)
     else:
         data = request.json
-        db.notes.update_one({'owner': current_user['_id'], 'id': note_id}, {'$set': {'markdown': data['markdown']}})
+        note_updates = {'markdown': data['markdown'], 'title': data['title']}
+        db.notes.update_one({'owner': current_user['_id'], 'id': note_id}, {'$set': note_updates})
         return make_response({'message': 'Note updated'})
+
+
+@app.route('/create-note', methods=['POST'])
+@login_required
+def create_note(current_user):
+    new_id = str(uuid4())
+    new_note = {'id': new_id, 'title': 'Untitled note', 'markdown': '', 'owner': current_user['_id']}
+    db.notes.insert_many([new_note])
+    return make_response({'message': 'Note created', 'id': new_id})

@@ -27,7 +27,7 @@ export default function Note() {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({markdown})
+            body: JSON.stringify({ markdown, title })
         });
         if (res.ok) {
             setSaving(false);
@@ -46,6 +46,7 @@ export default function Note() {
             const data = await res.json();
             const note = data.note;
             setMarkdown(note.markdown);
+            setTitle(note.title);
             setLoaded(true);
         }
         else {
