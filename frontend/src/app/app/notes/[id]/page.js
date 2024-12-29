@@ -11,6 +11,14 @@ export default function Note() {
     const [title, setTitle] = useState('New note');
     const [markdown, setMarkdown] = useState('');
 
+    function handleChange(text) {
+        setMarkdown(text);
+    }
+
+    function handleSave() {
+        console.log('save')
+    }
+
     return (
         <div className='d-flex flex-column p-5'>
             <form className='d-flex w-full'>
@@ -22,7 +30,7 @@ export default function Note() {
                 />
             </form>
             <div className='border border-1 rounded overflow-hidden'>
-                <Editor markdown={markdown} setMarkdown={setMarkdown}/>
+                <Editor handleSave={handleSave} onChange={handleChange} markdown={markdown}/>
             </div>
         </div>
     );

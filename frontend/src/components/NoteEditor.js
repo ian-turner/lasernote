@@ -2,20 +2,45 @@ import {
     MDXEditor,
     headingsPlugin,
     toolbarPlugin,
-    KitchenSinkToolbar,
+    imagePlugin,
+    UndoRedo,
+    BoldItalicUnderlineToggles,
+    BlockTypeSelect,
+    CreateLink,
+    InsertImage,
+    ListsToggle,
+    Separator,
 } from '@mdxeditor/editor';
 
 
-export default function Editor({ markdown, setMarkdown, editorRef }) {
+export default function Editor({ markdown, onChange, handleSave }) {
     return (
         <div className='bg-light w-100'>
             <MDXEditor
-                onChange={e => setMarkdown(e)}
-                ref={editorRef}
+                onChange={onChange}
                 markdown={markdown}
                 plugins={[
                     headingsPlugin(),
-                    toolbarPlugin({ toolbarContents: () => <KitchenSinkToolbar/> }),
+                    imagePlugin(),
+//                    toolbarPlugin({ toolbarContents: () => <KitchenSinkToolbar/> }),
+                    toolbarPlugin({
+                        toolbarContents: () => (
+                            <>
+                                <UndoRedo />
+                                <Separator />
+                                <BoldItalicUnderlineToggles />
+                                <Separator />
+                                <BlockTypeSelect />
+                                <Separator />
+                                <CreateLink />
+                                <InsertImage />
+                                <Separator />
+                                <ListsToggle />
+                                <div className='flex-grow-1'></div>
+                                <button onClick={handleSave} className='btn btn-primary'>Save</button>
+                            </>
+                        )
+                    }),
                 ]}
             />
         </div>
