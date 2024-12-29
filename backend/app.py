@@ -2,6 +2,7 @@ import hashlib
 import uuid
 import secrets
 from pymongo import MongoClient
+from bson.json_util import dumps, loads
 from flask import Flask, request, make_response, jsonify
 from flask_cors import CORS
 
@@ -16,7 +17,7 @@ CORS(app, supports_credentials=True)
 def login_required(func):
     def func_wrapper(*args, **kwargs):
         auth_token = request.cookies.get('auth_token')
-        current_user = db.get_token_user(auth_token)
+        current_user = db.users.find_one({'auth_tokens': auth_token})
         if not current_user:
             return make_response({'message': 'Invalid credentials'}, 400)
 
@@ -90,6 +91,23 @@ def login():
     return res
 
 
-@app.route('/')
-def home():
-    return 'success!'
+@app.route('/notes')
+@login_required
+def get_notes(current_user):
+    notes = db.notes.find({'owner': current_user['_id']}, {'_id': 0, 'owner': 0})
+    return make_response({'notes': notes})
+
+
+@app.route('/notes/<note_id>', methods=['GET', 'POST'])
+@login_required
+def get_note_by_id(current_user, note_id):
+    if request.method == 'GET':
+        note = db.notes.find_one({'owner': current_user['_id'], 'id': note_id}, {'_id': 0, 'owner': 0})
+        if note:
+            return make_response({'note': note})
+
+        return make_response({'message': 'Invalid note ID'}, 404)
+    else:
+        data = request.json
+        db.notes.update_one({'owner': current_user['_id'], 'id': note_id}, {'$set': {'markdown': data['markdown']}})
+        return make_response({'message': 'Note updated'})

@@ -1,7 +1,7 @@
 'use client';
 import dynamic from 'next/dynamic';
 import { useParams } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const Editor = dynamic(() => import('../../../../components/NoteEditor.js'), {ssr: false});
 
@@ -15,9 +15,37 @@ export default function Note() {
         setMarkdown(text);
     }
 
-    function handleSave() {
-        console.log('save')
+    async function handleSave() {
+        const res = await fetch('http://localhost:5000/notes/' + params.id, {
+            method: 'POST',
+            mode: 'cors',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({markdown})
+        });
+        console.log(res)
     }
+
+    async function getData() {
+        const res = await fetch('http://localhost:5000/notes/' + params.id, {
+            mode: 'cors',
+            credentials: 'include',
+        });
+        if (res.ok) {
+            const data = await res.json();
+            const note = data.note;
+            setMarkdown(note.markdown);
+        }
+        else {
+            // do something with error
+        }
+    }
+
+    useEffect(() => {
+        getData();
+    }, []);
 
     return (
         <div className='d-flex flex-column p-5'>
