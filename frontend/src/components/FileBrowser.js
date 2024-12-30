@@ -52,7 +52,11 @@ export default function FileBrowser() {
             </div>
             {loaded ? <>
                 {files.map(file =>
-                    <Link href={'/app/notes/' + file.id} className='w-100 p-1' key={file.id}>{file.title}</Link>
+                    <Link
+                        key={file.id}
+                        className='hover:bg-gray-800 rounded cursor-pointer w-100 p-1'
+                        href={'/app/notes/' + file.id}>
+                        {file.title}</Link>
                 )}
             </> : <Loading />}
         </div>

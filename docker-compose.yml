@@ -16,7 +16,7 @@ services:
             context: frontend
         restart: on-failure
         volumes:
-            - ./frontend:/app
+            - ./frontend/src:/app/src
         ports:
             - 4000:4000
         environment:
